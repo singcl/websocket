@@ -9,4 +9,5 @@ io.on('connect', SocketManager);
 
 app.listen(PORT, function() {
     console.log('Connect to PORT:' + PORT);
-})
+});
+
