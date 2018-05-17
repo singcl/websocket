@@ -43,7 +43,7 @@ class App extends Component {
     }
 
     render() {
-        const { socket } = this.props;
+        // const { socket } = this.props;
         return (
             <div>HELLO</div>
         );
@@ -51,7 +51,7 @@ class App extends Component {
 }
 
 App.propTypes = {
-    socket: PropTypes.func.isRequired,
+    socket: PropTypes.object,
     setSocket: PropTypes.func.isRequired,
     setUser: PropTypes.func.isRequired,
 };

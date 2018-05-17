@@ -1,12 +1,13 @@
+/* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
+import { applyMiddleware, createStore } from 'redux';
 import { logger } from 'redux-logger';
-
-import App from './App.jsx';
+import App from './App';
 import reducer from './reducers/RootReducer';
 import registerServiceWorker from './registerServiceWorker';
+
 
 const store = createStore(reducer, applyMiddleware(logger));
 
