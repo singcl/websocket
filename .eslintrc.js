@@ -12,6 +12,7 @@ module.exports = {
     "globals": {},
     "extends": "airbnb",
     "rules": {
+        "react/jsx-indent": ["error", 4],
         "max-len": ["error", { "comments": 200 }],
         "linebreak-style": 0,
         "indent": ["error", 4],
@@ -21,6 +22,8 @@ module.exports = {
         "no-multi-spaces": ["error", { ignoreEOLComments: true }],
         "no-console": 0,
         "prefer-template": "warn",
-        "prefer-destructuring": "warn"
+        "prefer-destructuring": "warn",
+        "arrow-parens": ["error", "always"],  // 要求箭头函数的参数始终使用圆括号
+        "no-shadow": "warn"
     }
 };
