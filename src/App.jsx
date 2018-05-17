@@ -8,7 +8,7 @@ import './App.css';
 import { LOGOUT, USER_CONNECTED } from './constants/Events';
 import { setSocket, setUser } from './actions/RootActions';
 
-const socketURL = 'http://localhost:33500';
+const socketURL = 'http://localhost:3500';
 
 class App extends Component {
     constructor(props) {
@@ -45,7 +45,7 @@ class App extends Component {
     render() {
         // const { socket } = this.props;
         return (
-            <div>HELLO</div>
+            <h2>HELLO</h2>
         );
     }
 }
