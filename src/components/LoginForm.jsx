@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import { Redirect } from 'react-router-dom';
 
 import { VERIFY_USER } from '../constants/Events';
 import { createUser } from '../Factory';
+
+import { setIsConnected as setIsConnectedAction } from '../actions/RootActions';
 
 class LoginForm extends Component {
     constructor(props) {
@@ -23,12 +29,17 @@ class LoginForm extends Component {
             }
 
             const name = this.textInput.value;
-            const { setUser } = this.props;
+            const { setUser, setIsConnected } = this.props;
             setUser(createUser({ name }));
+            setIsConnected(true);
         });
     }
 
     render() {
+        const { isConnected, user } = this.props;
+        if (isConnected) {
+            return (<Redirect to={'/' + user.name} />);
+        }
         return (
             <form className="container" onSubmit={this.handleSubmit}>
                 <h2><label htmlFor="nickname">Got a nickname ?</label></h2>
@@ -50,9 +61,19 @@ class LoginForm extends Component {
 }
 
 LoginForm.propTypes = {
-    socket: PropTypes.object,
+    socket: PropTypes.object.isRequired,
     setUser: PropTypes.func.isRequired,
+    setIsConnected: PropTypes.func.isRequired,
+    isConnected: PropTypes.bool.isRequired,
+    user: PropTypes.object.isRequired,
 };
 
+const mapStateToProps = (state) => ({
+    user: state.user,
+    isConnected: state.isConnected,
+});
 
-export default LoginForm;
+const mapDispatchToProps = (dispatch) => bindActionCreators({ setIsConnected: setIsConnectedAction }, dispatch);
+// 或者对象写法：const mapDispatchToProps = { setIsConnected: setIsConnectedAction };
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

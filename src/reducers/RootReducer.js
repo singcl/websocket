@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux';
-import { SET_SOCKET, SET_USER } from '../constants/ActionName';
-
+import { SET_IS_CONNECTED, SET_SOCKET, SET_USER } from '../constants/ActionName';
 
 const socket = (state = null, action) => {
     switch (action.type) {
@@ -20,7 +19,17 @@ const user = (state = null, action) => {
     }
 };
 
+const isConnected = (state = false, action) => {
+    switch (action.type) {
+    case SET_IS_CONNECTED:
+        return action.isConnected;
+    default:
+        return state;
+    }
+};
+
 export default combineReducers({
     socket,
     user,
+    isConnected,
 });
