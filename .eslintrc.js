@@ -13,6 +13,7 @@ module.exports = {
     "extends": "airbnb",
     "rules": {
         "react/jsx-indent": ["error", 4],
+        "react/jsx-indent-props": ["error", 4],
         "max-len": ["error", { "comments": 200 }],
         "linebreak-style": 0,
         "indent": ["error", 4],
@@ -24,6 +25,7 @@ module.exports = {
         "prefer-template": "warn",
         "prefer-destructuring": "warn",
         "arrow-parens": ["error", "always"],  // 要求箭头函数的参数始终使用圆括号
-        "no-shadow": "warn"
+        "no-shadow": "warn",
+        "no-return-assign": "off"
     }
 };

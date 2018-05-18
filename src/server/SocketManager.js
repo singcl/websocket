@@ -50,6 +50,7 @@ const removeUser = function removeUser(userList, username) {
 module.exports = function SM(socket) {
     console.log(`Socket id is ${socket.id}`);
     socket.on(VERIFY_USER, (name, fn) => {
+        console.log(connectedUsers);
         fn(isValidUser(connectedUsers, name));
     });
 
@@ -58,12 +59,12 @@ module.exports = function SM(socket) {
         console.log(connectedUsers);
     });
 
-    socket.on(USER_DISCONNECTED, (username) => {
-        connectedUsers = removeUser(connectedUsers, username);
-        socket.broadcast.emit(OTHER_DISCONNECTED, username);
-    });
+    // socket.on(USER_DISCONNECTED, (username) => {
+    //     connectedUsers = removeUser(connectedUsers, username);
+    //     socket.broadcast.emit(OTHER_DISCONNECTED, username);
+    // });
 
-    socket.on(SELF_SENT, (username, content) => {
-        socket.broadcast.emit(OTHER_SENT, username, content);
-    });
+    // socket.on(SELF_SENT, (username, content) => {
+    //     socket.broadcast.emit(OTHER_SENT, username, content);
+    // });
 };

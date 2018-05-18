@@ -4,9 +4,16 @@ import io from 'socket.io-client';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+
 import { LOGOUT, USER_CONNECTED } from './constants/Events';
-import { setSocket, setUser } from './actions/RootActions';
+import { setSocket as setSocketAction, setUser as setUserAction } from './actions/RootActions';
+
+import LoginForm from './components/LoginForm';
+import Chat from './components/Chat';
 
 const socketURL = 'http://localhost:3500';
 
@@ -43,9 +50,14 @@ class App extends Component {
     }
 
     render() {
-        // const { socket } = this.props;
+        const { socket } = this.props;
         return (
-            <h2>HELLO</h2>
+            <Router>
+                <div>
+                    <Route exact path="/" render={() => <LoginForm socket={socket} setUser={this.setUser} />} />
+                    <Route path="/:username" render={() => <Chat />} />
+                </div>
+            </Router>
         );
     }
 }
@@ -58,7 +70,7 @@ App.propTypes = {
 
 const mapStateToProps = (state) => ({ socket: state.socket });
 const mapDispatchToProps = (dispatch) => ({
-    ...bindActionCreators({ setSocket, setUser }, dispatch),
+    ...bindActionCreators({ setSocket: setSocketAction, setUser: setUserAction }, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
