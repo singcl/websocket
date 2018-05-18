@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { SET_IS_CONNECTED, SET_SOCKET, SET_USER } from '../constants/ActionName';
+import { SET_IS_CONNECTED, SET_LOGIN_ERROR, SET_SOCKET, SET_USER } from '../constants/ActionName';
 
 const socket = (state = null, action) => {
     switch (action.type) {
@@ -28,8 +28,18 @@ const isConnected = (state = false, action) => {
     }
 };
 
+const loginError = (state = '', action) => {
+    switch (action.type) {
+    case SET_LOGIN_ERROR:
+        return action.loginError;
+    default:
+        return state;
+    }
+};
+
 export default combineReducers({
     socket,
     user,
     isConnected,
+    loginError,
 });
