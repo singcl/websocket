@@ -89,13 +89,16 @@ class LoginForm extends Component {
 }
 
 LoginForm.propTypes = {
-    socket: PropTypes.object,
+    socket: PropTypes.object.isRequired,
     setUser: PropTypes.func.isRequired,
     setIsConnected: PropTypes.func.isRequired,
     isConnected: PropTypes.bool.isRequired,
     setLoginError: PropTypes.func.isRequired,
     loginError: PropTypes.string.isRequired,
-    user: PropTypes.object,
+    user: PropTypes.shape({
+        name: PropTypes.string,
+        id: PropTypes.string,
+    }).isRequired,
 };
 
 const mapStateToProps = (state) => ({

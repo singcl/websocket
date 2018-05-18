@@ -63,7 +63,7 @@ class App extends Component {
 }
 
 App.propTypes = {
-    socket: PropTypes.object,
+    socket: PropTypes.object.isRequired,
     setSocket: PropTypes.func.isRequired,
     setUser: PropTypes.func.isRequired,
 };

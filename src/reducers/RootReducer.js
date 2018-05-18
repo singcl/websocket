@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { SET_IS_CONNECTED, SET_LOGIN_ERROR, SET_SOCKET, SET_USER } from '../constants/ActionName';
 
-const socket = (state = null, action) => {
+const socket = (state = {}, action) => {
     switch (action.type) {
     case SET_SOCKET:
         return action.socket;
@@ -10,7 +10,7 @@ const socket = (state = null, action) => {
     }
 };
 
-const user = (state = null, action) => {
+const user = (state = { name: '', id: '' }, action) => {
     switch (action.type) {
     case SET_USER:
         return action.user;
