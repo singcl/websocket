@@ -44,27 +44,27 @@ const addUser = function addUser(userList, user) {
 };
 
 const removeUser = function removeUser(userList, username) {
-    _.omit(userList, username);
+    return _.omit(userList, username);
 };
 
 module.exports = function SM(socket) {
     console.log(`Socket id is ${socket.id}`);
     socket.on(VERIFY_USER, (name, fn) => {
-        console.log(connectedUsers);
+        console.log('>>>>>>>>>>>>>>', connectedUsers);
         fn(isValidUser(connectedUsers, name));
     });
 
     socket.on(USER_CONNECTED, (user) => {
         connectedUsers = addUser(connectedUsers, user);
-        console.log(connectedUsers);
+        console.log('CONNECTED USER:', connectedUsers);
     });
 
-    // socket.on(USER_DISCONNECTED, (username) => {
-    //     connectedUsers = removeUser(connectedUsers, username);
-    //     socket.broadcast.emit(OTHER_DISCONNECTED, username);
-    // });
+    socket.on(USER_DISCONNECTED, (username) => {
+        connectedUsers = removeUser(connectedUsers, username);
+        socket.broadcast.emit(OTHER_DISCONNECTED, username);
+    });
 
-    // socket.on(SELF_SENT, (username, content) => {
-    //     socket.broadcast.emit(OTHER_SENT, username, content);
-    // });
+    socket.on(SELF_SENT, (username, content) => {
+        socket.broadcast.emit(OTHER_SENT, username, content);
+    });
 };
