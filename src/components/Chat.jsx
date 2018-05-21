@@ -13,18 +13,82 @@ import {
     setIsConnected as setIsConnectedAction,
     setSocket as setSocketAction,
     setUser as setUserAction,
+    postMsg as postMsgAction,
+    setTypingValue as setTypingValueAction,
 } from '../actions/RootActions';
 
-import { USER_DISCONNECTED } from '../constants/Events';
+import { USER_DISCONNECTED, OTHER_DISCONNECTED, OTHER_SENT, SELF_SENT } from '../constants/Events';
+import { LEFT, OTHER_INFO, SELF_INFO } from '../constants/Msgs';
 
 class Chat extends Component {
     constructor(props) {
         super(props);
         this.handleLogout = this.handleLogout.bind(this);
+        this.handleOtherLogout = this.handleOtherLogout.bind(this);
+        this.handleOtherSent = this.handleOtherSent.bind(this);
+        this.handleChangeSend = this.handleChangeSend.bind(this);
+        this.handleSent = this.handleSent.bind(this);
     }
 
     componentDidMount() {
         const { socket } = this.props;
+        socket.on(OTHER_DISCONNECTED, this.handleOtherLogout);
+        socket.on(OTHER_SENT, this.handleOtherSent);
+    }
+
+    componentWillUnmount() {
+        const { socket } = this.props;
+        socket.off(OTHER_DISCONNECTED, this.handleOtherLogout);
+        socket.off(OTHER_SENT, this.handleOtherSent);
+    }
+
+    handleChangeSend(e) {
+        const { setIsEmptySend, setTypingValue } = this.props;
+        setTypingValue(e.target.value);
+        if (e.target.value === '') {
+            setIsEmptySend(true);
+        } else {
+            setIsEmptySend(false);
+        }
+    }
+
+    handleSent(e, input) {
+        e.preventDefault();
+        console.log(input);
+        const {
+            socket,
+            username,
+            postMsg,
+            setIsEmptySend,
+            setTypingValue,
+        } = this.props;
+        postMsg({
+            senderName: username,
+            content: input.value,
+            color: SELF_INFO.color,
+        });
+        socket.emit(SELF_SENT, username, input.value);
+        setIsEmptySend(true);
+        setTypingValue('');
+    }
+
+    handleOtherLogout(otherUsername) {
+        const { postMsg } = this.props;
+        postMsg({
+            senderName: otherUsername,
+            content: LEFT.content,
+            color: LEFT.color,
+        });
+    }
+
+    handleOtherSent(otherUsername, content) {
+        console.log(this);
+        const { postMsg } = this.props;
+        postMsg({
+            senderName: otherUsername,
+            content,
+            color: OTHER_INFO.color,
+        });
     }
 
     handleLogout() {
@@ -43,7 +107,13 @@ class Chat extends Component {
     }
 
     render() {
-        const { username, isConnected, msgs } = this.props;
+        const {
+            username,
+            isConnected,
+            msgs,
+            isEmptySend,
+            typingValue,
+        } = this.props;
 
         if (!isConnected) {
             return <Redirect to="/" />;
@@ -53,14 +123,22 @@ class Chat extends Component {
             <div className="fluid-container chat">
                 <Welcome username={username} handleLogout={this.handleLogout} />
                 <Messages msgs={msgs} />
-                <Send />
+                <Send
+                    isDisabledSend={isEmptySend}
+                    handleChangeSend={this.handleChangeSend}
+                    handleSent={this.handleSent}
+                    typingValue={typingValue}
+                />
             </div>
         );
     }
 }
 
 Chat.propTypes = {
+    socket: PropTypes.shape().isRequired,
     username: PropTypes.string.isRequired,
+    typingValue: PropTypes.string.isRequired,
+    isEmptySend: PropTypes.bool.isRequired,
     msgs: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.string.isRequired,
         senderName: PropTypes.string.isRequired,
@@ -72,6 +150,8 @@ Chat.propTypes = {
     setIsEmptySend: PropTypes.func.isRequired,
     setUser: PropTypes.func.isRequired,
     setIsConnected: PropTypes.func.isRequired,
+    postMsg: PropTypes.func.isRequired,
+    setTypingValue: PropTypes.func.isRequired,
 };
 
 
@@ -79,6 +159,8 @@ const mapStateToProps = (state) => ({
     isConnected: state.isConnected,
     socket: state.socket,
     msgs: state.msgs,
+    typingValue: state.typingValue,
+    isEmptySend: state.isEmptySend,
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
@@ -86,6 +168,8 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
     setIsConnected: setIsConnectedAction,
     setSocket: setSocketAction,
     setUser: setUserAction,
+    postMsg: postMsgAction,
+    setTypingValue: setTypingValueAction,
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chat);

@@ -89,7 +89,7 @@ class LoginForm extends Component {
 }
 
 LoginForm.propTypes = {
-    socket: PropTypes.object.isRequired,
+    socket: PropTypes.shape().isRequired,
     setUser: PropTypes.func.isRequired,
     setIsConnected: PropTypes.func.isRequired,
     isConnected: PropTypes.bool.isRequired,

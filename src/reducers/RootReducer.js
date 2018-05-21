@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { POST_MSG, SET_IS_CONNECTED, SET_IS_EMPTY_SEND, SET_LOGIN_ERROR, SET_SOCKET, SET_USER } from '../constants/ActionName';
+import { POST_MSG, SET_IS_CONNECTED, SET_IS_EMPTY_SEND, SET_LOGIN_ERROR, SET_SOCKET, SET_TYPING_VALUE, SET_USER } from '../constants/ActionName';
 
 const socket = (state = {}, action) => {
     switch (action.type) {
@@ -69,6 +69,15 @@ const msgs = (state = [], action) => {
     }
 };
 
+const typingValue = (state = '', action) => {
+    switch (action.type) {
+    case SET_TYPING_VALUE:
+        return action.typingValue;
+    default:
+        return state;
+    }
+};
+
 export default combineReducers({
     socket,
     user,
@@ -76,4 +85,5 @@ export default combineReducers({
     loginError,
     isEmptySend,
     msgs,
+    typingValue,
 });

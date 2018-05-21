@@ -2,14 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Send = ({
-    handleSend,
+    handleSent,
     isDisabledSend,
     handleChangeSend,
     typingValue,
 }) => {
     let textInput = null;
     return (
-        <form className="send" onSubmit={(e) => handleSend(e, textInput)}>
+        <form className="send" onSubmit={(e) => handleSent(e, textInput)}>
             <div className="input-group full-height">
                 <input
                     type="text"
@@ -22,7 +22,7 @@ const Send = ({
                     <button
                         className="btn btn-info full-height-change"
                         disabled={isDisabledSend}
-                        onClick={(e) => handleSend(e, textInput)}
+                        onClick={(e) => handleSent(e, textInput)}
                     >
                         Send
                     </button>
@@ -33,7 +33,7 @@ const Send = ({
 };
 
 Send.propTypes = {
-    handleSend: PropTypes.func.isRequired,
+    handleSent: PropTypes.func.isRequired,
     handleChangeSend: PropTypes.func.isRequired,
     isDisabledSend: PropTypes.bool.isRequired,
     typingValue: PropTypes.string.isRequired,

@@ -1,4 +1,4 @@
-import { POST_MSG, SET_IS_CONNECTED, SET_IS_EMPTY_SEND, SET_LOGIN_ERROR, SET_SOCKET, SET_USER } from '../constants/ActionName';
+import { POST_MSG, SET_IS_CONNECTED, SET_IS_EMPTY_SEND, SET_LOGIN_ERROR, SET_SOCKET, SET_TYPING_VALUE, SET_USER } from '../constants/ActionName';
 
 const uuidV4 = require('uuid/v4');
 const { getTime } = require('../Factory');
@@ -18,3 +18,5 @@ export const postMsg = ({ senderName, content, color }) => ({
     id: uuidV4(),
     receivedAt: getTime(new Date()),
 });
+
+export const setTypingValue = (typingValue) => ({ type: SET_TYPING_VALUE, typingValue });
