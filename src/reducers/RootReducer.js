@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { SET_IS_CONNECTED, SET_LOGIN_ERROR, SET_SOCKET, SET_USER } from '../constants/ActionName';
+import { POST_MSG, SET_IS_CONNECTED, SET_IS_EMPTY_SEND, SET_LOGIN_ERROR, SET_SOCKET, SET_USER } from '../constants/ActionName';
 
 const socket = (state = {}, action) => {
     switch (action.type) {
@@ -37,9 +37,43 @@ const loginError = (state = '', action) => {
     }
 };
 
+const isEmptySend = (state = true, action) => {
+    switch (action.type) {
+    case SET_IS_EMPTY_SEND:
+        return action.isEmptySend;
+    default:
+        return state;
+    }
+};
+
+const msgs = (state = [], action) => {
+    const {
+        id,
+        senderName,
+        content,
+        color,
+        receivedAt,
+    } = action;
+    const msg = {
+        id,
+        senderName,
+        content,
+        color,
+        receivedAt,
+    };
+    switch (action.type) {
+    case POST_MSG:
+        return [...state, msg];
+    default:
+        return state;
+    }
+};
+
 export default combineReducers({
     socket,
     user,
     isConnected,
     loginError,
+    isEmptySend,
+    msgs,
 });

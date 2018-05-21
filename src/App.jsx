@@ -55,7 +55,7 @@ class App extends Component {
             <Router>
                 <div>
                     <Route exact path="/" render={() => <LoginForm socket={socket} setUser={this.setUser} />} />
-                    <Route path="/:username" render={() => <Chat />} />
+                    <Route path="/:username" render={({ match }) => <Chat username={match.params.username} />} />
                 </div>
             </Router>
         );
