@@ -61,6 +61,7 @@ module.exports = function SM(socket) {
 
     socket.on(USER_DISCONNECTED, (username) => {
         connectedUsers = removeUser(connectedUsers, username);
+        console.log('CONNECTED USER:', connectedUsers);
         socket.broadcast.emit(OTHER_DISCONNECTED, username);
     });
 
