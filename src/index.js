@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { applyMiddleware, createStore } from 'redux';
 import { logger } from 'redux-logger';
 import App from './App';
+import './index.css';
 import reducer from './reducers/RootReducer';
 import registerServiceWorker from './registerServiceWorker';
 
